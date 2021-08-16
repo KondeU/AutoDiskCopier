@@ -206,8 +206,9 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
         case IDC_BTN_SAVESETTING:
             padc->GetDlgInfo(hDlg);
+            padc->RegisterAutorun(hDlg); // 注册失败时会自动更改标记
+            padc->SetDlgInfo(hDlg);      // 因此重新获取一遍标记再SaveSetting
             padc->SaveSetting(hDlg);
-            padc->RegisterAutorun();//
             return TRUE;
 
         case IDC_BTN_BROWSECOPYFILEPATH:

@@ -182,16 +182,20 @@ public:
         }
     }
 
-    void RegisterAutorun()
+    void RegisterAutorun(HWND hwnd)
     {
         TCHAR szFilePath[MAX_PATH];
         GetModuleFileName(NULL, szFilePath, MAX_PATH);
-        //
+
         HKEY hReg;
         RegOpenKey(HKEY_LOCAL_MACHINE, TEXT("Software\\Microsoft\\Windows\\CurrentVersion\\Run"), &hReg);
         if (m_bAutorun)
         {
-            RegSetValue(hReg, TEXT("AutoDiskCopier"), REG_SZ, szFilePath, (lstrlen(szFilePath) + 1) * sizeof(TCHAR));
+            if (ERROR_SUCCESS != RegSetValue(hReg, TEXT("AutoDiskCopier"), REG_SZ, szFilePath, (lstrlen(szFilePath) + 1) * sizeof(TCHAR)))
+            {
+                MessageBox(hwnd, TEXT("自启动设置失败，请检查是否有注册表写权限！"), TEXT("ADC - 保存设置"), MB_ICONWARNING);
+                m_bAutorun = false;
+            }
         }
         else
         {

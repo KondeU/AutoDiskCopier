@@ -1,6 +1,6 @@
 ﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ 生成的包含文件。
-// 供 AutoDiskCopier_pre.rc 使用
+// 供 AutoDiskCopier.rc 使用
 //
 #define IDD_DIALOG                      101
 #define IDB_BITMAP                      102
@@ -19,6 +19,7 @@
 #define IDC_CHCK_CONFIRMDIALOG          1011
 #define IDC_CHCK_MD5                    1012
 #define IDC_BTN_SAVESETTING             1013
+#define IDC_SYSLINK                     1014
 #define IDR_ACCELERATOR_HIDE            40001
 
 // Next default values for new objects
@@ -27,7 +28,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40002
-#define _APS_NEXT_CONTROL_VALUE         1014
+#define _APS_NEXT_CONTROL_VALUE         1015
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

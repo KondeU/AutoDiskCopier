@@ -191,11 +191,11 @@ public:
         RegOpenKey(HKEY_LOCAL_MACHINE, TEXT("Software\\Microsoft\\Windows\\CurrentVersion\\Run"), &hReg);
         if (m_bAutorun)
         {
-            RegSetValue(hReg, TEXT("AutoDiskCopier_pre"), REG_SZ, szFilePath, (lstrlen(szFilePath) + 1) * sizeof(TCHAR));
+            RegSetValue(hReg, TEXT("AutoDiskCopier"), REG_SZ, szFilePath, (lstrlen(szFilePath) + 1) * sizeof(TCHAR));
         }
         else
         {
-            RegDeleteKey(hReg, TEXT("AutoDiskCopier_pre"));
+            RegDeleteKey(hReg, TEXT("AutoDiskCopier"));
         }
         RegCloseKey(hReg);
     }

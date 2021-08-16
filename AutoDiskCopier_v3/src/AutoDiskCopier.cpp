@@ -91,7 +91,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         RegisterHotKey(hwnd, 0, MOD_CONTROL | MOD_ALT | MOD_SHIFT, 'U');
 
         //托盘图标
-        adc.m_ni.SetTip(TEXT("AutoDiskCopier_pre\nBeta2,Ver2.15.11.24"));
+        adc.m_ni.SetTip(TEXT("AutoDiskCopier v3.0"));
         adc.m_ni.SetIcon(((CREATESTRUCT*)lParam)->hInstance, MAKEINTRESOURCE(IDI_ICON));
 
         if (adc.m_bEnableNotifyIcon)

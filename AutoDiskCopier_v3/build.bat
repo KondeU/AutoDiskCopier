@@ -8,7 +8,7 @@ rem script params: build.bat [BUILD_BITS] [BUILD_TYPE] [BUILD_COMPILE]
 rem default value: BUILD_BITS=x86 BUILD_TYPE=Release BUILD_COMPILE=VS2015
 
 if "%BUILD_TYPE%"=="" (set BUILD_TYPE=Release)
-if "%BUILD_COMPILE%"=="" (set BUILD_COMPILE=VS2015)
+if "%BUILD_COMPILE%"=="" (set BUILD_COMPILE=VS2017)
 
 if "%BUILD_COMPILE%"=="VS2015" (set BUILD_COMPILE=Visual Studio 14 2015)
 if "%BUILD_COMPILE%"=="VS2017" (set BUILD_COMPILE=Visual Studio 15 2017)
@@ -26,5 +26,5 @@ if "%BUILD_BITS%"=="x64" (set BUILD_COMPILE=%BUILD_COMPILE% Win64)
 mkdir build
 cd build
 cmake -G "%BUILD_COMPILE%" %BUILD_ARCH_ARG% ..
-cmake --build . --config %BUILD_TYPE% -j 8
+cmake --build . --config %BUILD_TYPE% -j 8 -- /p:CharacterSet=Unicode
 cd ..

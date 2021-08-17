@@ -257,8 +257,24 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
                 SetDlgItemText(hDlg, IDC_EDIT_KEYFILEPATH, padc->m_osdlg.GetFilePath());
             }
             return TRUE;
-
         }
+        break;
+
+    case WM_NOTIFY:
+        switch (((LPNMHDR)lParam)->code)
+        {
+            case NM_CLICK:
+            case NM_RETURN:
+            {
+                PNMLINK pnmLink = (PNMLINK)lParam;
+                if (((LPNMHDR)lParam)->hwndFrom == GetDlgItem(hDlg, IDC_SYSLINK))
+                {
+                    ShellExecute(NULL, TEXT("open"), TEXT("https://github.com/KondeU/AutoDiskCopier"), NULL, NULL, SW_SHOW);
+                    return TRUE;
+                }
+            }
+        }
+        break;
     }
     return FALSE;
 }

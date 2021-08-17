@@ -193,13 +193,17 @@ public:
         {
             if (ERROR_SUCCESS != RegSetValue(hReg, TEXT("AutoDiskCopier"), REG_SZ, szFilePath, (lstrlen(szFilePath) + 1) * sizeof(TCHAR)))
             {
-                MessageBox(hwnd, TEXT("自启动设置失败，请检查是否有注册表写权限！"), TEXT("ADC - 保存设置"), MB_ICONWARNING);
+                MessageBox(hwnd, TEXT("自启动设置失败，请检查是否有注册表写权限（管理员权限）！"), TEXT("ADC - 保存设置"), MB_ICONWARNING);
                 m_bAutorun = false;
             }
         }
         else
         {
-            RegDeleteKey(hReg, TEXT("AutoDiskCopier"));
+            if (ERROR_SUCCESS != RegDeleteKey(hReg, TEXT("AutoDiskCopier")))
+            {
+                MessageBox(hwnd, TEXT("自启动设置失败，请检查是否有注册表写权限（管理员权限）！"), TEXT("ADC - 保存设置"), MB_ICONWARNING);
+                m_bAutorun = true;
+            }
         }
         RegCloseKey(hReg);
     }

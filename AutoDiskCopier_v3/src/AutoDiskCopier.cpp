@@ -240,7 +240,7 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
                         padc->m_md5.CalcMD5((void *)(&iRand[ui]), sizeof(int));
                         padc->m_md5.GetMD5(szMD5);
                         padc->m_md5.Reset();
-                    
+
                         DWORD dwWrited;
                         WriteFile(hFile, szMD5, 32 * sizeof(char), &dwWrited, NULL);
                     }

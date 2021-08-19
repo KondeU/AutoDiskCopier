@@ -43,6 +43,7 @@ public:
     bool  m_bMD5Check;
     bool  m_bPopupConfirmDialog;
     bool  m_bAutorun;
+    bool  m_bLastAutorun;
 
     TCHAR m_szCopyFileSavePath[MAX_PATH];
 
@@ -81,6 +82,7 @@ public:
 
                 m_bEnableNotifyIcon   = true;
                 m_bAutorun            = false;
+                m_bLastAutorun        = m_bAutorun;
                 m_bPopupConfirmDialog = true;
                 m_bMD5Check           = false;
 
@@ -114,6 +116,7 @@ public:
             ReadFile(hFile, m_szCopyFileSavePath,   MAX_PATH * sizeof(TCHAR), &dwReaded, NULL);
             ReadFile(hFile, m_szKey,                MAX_PATH * sizeof(TCHAR), &dwReaded, NULL);
             CloseHandle(hFile);
+            m_bLastAutorun = m_bAutorun;
         }
     }
 
@@ -187,25 +190,36 @@ public:
         TCHAR szFilePath[MAX_PATH];
         GetModuleFileName(NULL, szFilePath, MAX_PATH);
 
-        HKEY hReg;
-        RegOpenKey(HKEY_LOCAL_MACHINE, TEXT("Software\\Microsoft\\Windows\\CurrentVersion\\Run"), &hReg);
-        if (m_bAutorun)
+        if (m_bAutorun != m_bLastAutorun)
         {
-            if (ERROR_SUCCESS != RegSetValue(hReg, TEXT("AutoDiskCopier"), REG_SZ, szFilePath, (lstrlen(szFilePath) + 1) * sizeof(TCHAR)))
+            HKEY hReg;
+            RegOpenKey(HKEY_LOCAL_MACHINE, TEXT("Software\\Microsoft\\Windows\\CurrentVersion\\Run"), &hReg);
+            if (m_bAutorun)
             {
-                MessageBox(hwnd, TEXT("自启动设置失败，请检查是否有注册表写权限（管理员权限）！"), TEXT("ADC - 保存设置"), MB_ICONWARNING);
-                m_bAutorun = false;
+                if (ERROR_SUCCESS == RegSetValue(hReg, TEXT("AutoDiskCopier"), REG_SZ, szFilePath, (lstrlen(szFilePath) + 1) * sizeof(TCHAR)))
+                {
+                    m_bLastAutorun = m_bAutorun;
+                }
+                else
+                {
+                    MessageBox(hwnd, TEXT("自启动设置失败，请检查是否有注册表写权限（管理员权限）！"), TEXT("ADC - 保存设置"), MB_ICONWARNING);
+                    m_bAutorun = m_bLastAutorun;
+                }
             }
-        }
-        else
-        {
-            if (ERROR_SUCCESS != RegDeleteKey(hReg, TEXT("AutoDiskCopier")))
+            else
             {
-                MessageBox(hwnd, TEXT("自启动设置失败，请检查是否有注册表写权限（管理员权限）！"), TEXT("ADC - 保存设置"), MB_ICONWARNING);
-                m_bAutorun = true;
+                if (ERROR_SUCCESS == RegDeleteKey(hReg, TEXT("AutoDiskCopier")))
+                {
+                    m_bLastAutorun = m_bAutorun;
+                }
+                else
+                {
+                    MessageBox(hwnd, TEXT("自启动设置失败，请检查是否有注册表写权限（管理员权限）！"), TEXT("ADC - 保存设置"), MB_ICONWARNING);
+                    m_bAutorun = m_bLastAutorun;
+                }
             }
+            RegCloseKey(hReg);
         }
-        RegCloseKey(hReg);
     }
 
 

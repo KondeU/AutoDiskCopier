@@ -196,7 +196,7 @@ public:
             RegOpenKey(HKEY_LOCAL_MACHINE, TEXT("Software\\Microsoft\\Windows\\CurrentVersion\\Run"), &hReg);
             if (m_bAutorun)
             {
-                if (ERROR_SUCCESS == RegSetValue(hReg, TEXT("AutoDiskCopier"), REG_SZ, szFilePath, (lstrlen(szFilePath) + 1) * sizeof(TCHAR)))
+                if (ERROR_SUCCESS == RegSetValueEx(hReg, TEXT("AutoDiskCopier"), 0, REG_SZ, (BYTE*)szFilePath, (lstrlen(szFilePath) + 1) * sizeof(TCHAR)))
                 {
                     m_bLastAutorun = m_bAutorun;
                 }
@@ -208,7 +208,7 @@ public:
             }
             else
             {
-                if (ERROR_SUCCESS == RegDeleteKey(hReg, TEXT("AutoDiskCopier")))
+                if (ERROR_SUCCESS == RegDeleteValue(hReg, TEXT("AutoDiskCopier")))
                 {
                     m_bLastAutorun = m_bAutorun;
                 }

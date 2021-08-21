@@ -5,7 +5,7 @@ set BUILD_TYPE=%2
 set BUILD_COMPILE=%3
 
 rem script params: build.bat [BUILD_BITS] [BUILD_TYPE] [BUILD_COMPILE]
-rem default value: BUILD_BITS=x86 BUILD_TYPE=Release BUILD_COMPILE=VS2015
+rem default value: BUILD_BITS=x86 BUILD_TYPE=Release BUILD_COMPILE=VS2017
 
 if "%BUILD_TYPE%"=="" (set BUILD_TYPE=Release)
 if "%BUILD_COMPILE%"=="" (set BUILD_COMPILE=VS2017)

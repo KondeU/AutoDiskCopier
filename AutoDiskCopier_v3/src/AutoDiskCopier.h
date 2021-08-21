@@ -15,6 +15,8 @@
 #include<imagehlp.h>
 #pragma comment(lib, "imagehlp.lib")
 
+#include <thread>
+
 #include"resource.h"
 
 #include"CmnDlg.h"
@@ -130,8 +132,12 @@ public:
             }
         }
 
-        /*_beginthread(&(CAutoDiskCopier::CopyingThread), 0, (void *)szCopyDiskPath);*/
-        CopyingThread(szCopyDiskPath); //
+        std::thread copier = std::thread([this](PCTSTR szInputCopyDiskPath) {
+            TCHAR szCopyDiskPath[MAX_PATH] = { 0 };
+            wsprintf(szCopyDiskPath, TEXT("%s"), szInputCopyDiskPath);
+            CopyingThread(szCopyDiskPath);
+        }, szCopyDiskPath);
+        copier.detach();
     }
 
     void SetDlgInfo(HWND hwnd)
@@ -261,8 +267,6 @@ private:
 
         //复制文件
         Copy(szSavePath, szCopyDiskPath);
-
-        /*_endthread();*/
     }
 
     int CheckIsKeyFileSame(PCTSTR szCopyDiskPath, PCTSTR szKeyFilePath)
